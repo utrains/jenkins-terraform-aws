@@ -25,7 +25,7 @@ resource "aws_default_subnet" "default_az1" {
 }
 
 # create security group for the ec2 instance
-resource "aws_security_group" "ec2_security_group" {
+resource "aws_security_group" "jenkins_ec2_security_group" {
   name        = "ec2 security group"
   description = "allow access on ports 8080 and 22"
   vpc_id      = aws_default_vpc.default_vpc.id
@@ -76,13 +76,29 @@ data "aws_ami" "amazon_linux_2" {
   }
 }
 
+# Generates a secure private key and encodes it as PEM
+resource "tls_private_key" "jenkins_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+# Create the Key Pair
+resource "aws_key_pair" "jenkins_key" {
+  key_name   = "jenkins_key_pair"  
+  public_key = tls_private_key.jenkins_key.public_key_openssh
+}
+# Save file
+resource "local_file" "ssh_key" {
+  filename = "${aws_key_pair.jenkins_key.key_name}.pem"
+  content  = tls_private_key.jenkins_key.private_key_pem
+}
+
 # launch the ec2 instance and install jenkis
 resource "aws_instance" "ec2_instance" {
   ami                    = data.aws_ami.amazon_linux_2.id
   instance_type          = var.aws_instance_type
   subnet_id              = aws_default_subnet.default_az1.id
-  vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
-  key_name               = "utrains_jenkins_key_pair"
+  vpc_security_group_ids = [aws_security_group.jenkins_ec2_security_group.id]
+  key_name               = aws_key_pair.jenkins_key.key_name
   # user_data            = file("install_jenkins.sh")
 
   tags = {
@@ -97,7 +113,7 @@ resource "null_resource" "name" {
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file("~/Downloads/utrains_jenkins_key_pair.pem")
+    private_key = file(local_file.ssh_key.filename)
     host        = aws_instance.ec2_instance.public_ip
   }
 
@@ -126,5 +142,5 @@ output "jenkins_url" {
 
 # print the url of the jenkins server
 output "ssh_connection_command" {
-  value     = join ("", ["ssh -i ~/Downloads/utrains_jenkins_key_pair.pem ec2-user@", aws_instance.ec2_instance.public_dns])
+  value     = join ("", ["ssh -i jenkins_key_pair.pem ec2-user@", aws_instance.ec2_instance.public_dns])
 }
