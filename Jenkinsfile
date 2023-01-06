@@ -36,7 +36,7 @@ pipeline {
              steps {
                  script {
                      docker.image('bridgecrew/checkov:latest').inside("--entrypoint=''") {
-                         unstash 'jenkins-terraform-aws'
+                         //unstash 'jenkins-terraform-aws'
                          try {
                              sh 'checkov -d . --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml --repo-id utrains/jenkins-terraform-aws --branch main'
                              junit skipPublishingChecks: true, testResults: 'results.xml'
