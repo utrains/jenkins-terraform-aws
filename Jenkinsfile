@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'fsfe/pipenv'
+            image 'kennethreitz/pipenv'
             args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
