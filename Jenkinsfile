@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'kennethreitz/pipenv:latest'
+            image 'fsfe/pipenv:bitnami-3.8'
             args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
