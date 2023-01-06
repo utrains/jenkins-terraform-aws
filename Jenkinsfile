@@ -22,7 +22,7 @@ pipeline {
                     // checkov -d /var/lib/jenkins/workspace/scan_terraform --bc-api-key 6283b629-b384-439a-9e58-90099438686a --repo-id utrains/jenkins-terraform-aws --branch main"""    
 
                     "export BC_API_URL=https://www.bridgecrew.cloud" 
-                    "checkov -d jenkins-terraform-aws --bc-api-key 1e106f9c-96de-4380-89c0-50c0a8bb9110 --repo-id utrains/jenkins-terraform-aws --branch main"
+                    sh "checkov -d jenkins-terraform-aws --bc-api-key 1e106f9c-96de-4380-89c0-50c0a8bb9110 --repo-id utrains/jenkins-terraform-aws --branch main"
                     
                 }
             }
