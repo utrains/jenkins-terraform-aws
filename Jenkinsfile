@@ -38,7 +38,7 @@ pipeline {
                     //  docker.image('bridgecrew/checkov:latest').inside("--entrypoint=''") {
                     //      unstash 'terragoat'
                          try {
-                             sh 'checkov -d . --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml --bc-api-key 6283b629-b384-439a-9e58-90099438686a --repo-id utrains/jenkins-terraform-aws --branch main'
+                             sh 'checkov -d . --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml --repo-id utrains/jenkins-terraform-aws --branch main'
                              junit skipPublishingChecks: true, testResults: 'results.xml'
                          } catch (err) {
                              junit skipPublishingChecks: true, testResults: 'results.xml'
