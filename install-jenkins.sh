@@ -17,6 +17,10 @@ sudo service docker start
 sudo systemctl enable docker.service
 
 sudo chmod 777  /var/run/docker.sock
+
+## Install Checkov
+sudo pip3 install checkov
+
 ## install Git
 sudo yum install git -y
 

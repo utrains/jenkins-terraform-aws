@@ -10,9 +10,8 @@ pipeline {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/utrains/jenkins-terraform-aws.git']]])
                 script { 
-                    sh """pipenv install
-                    pipenv run pip install bridgecrew
-                    pipenv run bridgecrew --directory . --bc-api-key 05ef6658-1ce5-4f4c-ab0a-688f490bf56d --repo-id utrains/jenkins-terraform-aws"""
+                    sh """export BC_API_URL=https://www.bridgecrew.cloud 
+                    checkov -d main --bc-api-key 6283b629-b384-439a-9e58-90099438686a --repo-id utrains/jenkins-terraform-aws --branch main"""
                 }
             }
         }
