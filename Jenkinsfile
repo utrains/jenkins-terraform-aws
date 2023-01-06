@@ -61,10 +61,10 @@ pipeline {
          stage('Checkout') {
              steps {
                  git branch: 'main', url: 'https://github.com/utrains/jenkins-terraform-aws'
-                 stash includes: '**/*', name: 'terragoat'
+                 stash includes: '**/*', name: 'jenkins-terraform-aws'
              }
          }
-         stage('Checkov') {
+         stage('Checkov2') {
              steps {
                  script {
                     // sh "pipenv run pip install checkov"
