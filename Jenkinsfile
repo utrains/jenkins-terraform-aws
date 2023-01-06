@@ -29,7 +29,7 @@ pipeline {
          stage('Checkout') {
              steps {
                  git branch: 'main', url: 'https://github.com/utrains/jenkins-terraform-aws'
-                 stash includes: '**/*', name: 'jenkins-terraform-aws'
+                 //stash includes: '**/*', name: 'jenkins-terraform-aws'
              }
          }
          stage('Checkov') {
