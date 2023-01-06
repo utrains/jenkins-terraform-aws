@@ -11,6 +11,14 @@ sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 
 sudo yum upgrade -y
 
+## install And Enable Docker
+sudo yum install docker -y
+sudo service docker start 
+sudo systemctl enable docker.service
+
+## install Git
+sudo yum install git -y
+
 ## Install Java 11:
 sudo amazon-linux-extras install java-openjdk11 -y
 
