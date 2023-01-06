@@ -16,6 +16,7 @@ sudo yum install docker -y
 sudo service docker start 
 sudo systemctl enable docker.service
 
+sudo chmod 777  /var/run/docker.sock
 ## install Git
 sudo yum install git -y
 

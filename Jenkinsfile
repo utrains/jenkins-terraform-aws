@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('test') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'master']], userRemoteConfigs: [[url: 'https://github.com/utrains/jenkins-terraform-aws.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/utrains/jenkins-terraform-aws.git']]])
                 script { 
                     sh """pipenv install
                     pipenv run pip install bridgecrew
