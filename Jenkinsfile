@@ -12,16 +12,17 @@ pipeline {
                 //  stash includes: '**/*', name: 'jenkins-terraform-aws'
              }
          }
-        // stage('test') {
-        //     steps {
-        //         // checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/utrains/jenkins-terraform-aws.git']]])
-        //         script { 
-        //             sh """export BC_API_URL=https://www.bridgecrew.cloud
-        //             pwd
-        //             checkov -d /var/lib/jenkins/workspace/scan_terraform --bc-api-key 6283b629-b384-439a-9e58-90099438686a --repo-id utrains/jenkins-terraform-aws --branch main"""    
-        //         }
-        //     }
-        // }
+        stage('test') {
+            steps {
+                // checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/utrains/jenkins-terraform-aws.git']]])
+                script { 
+                    sh "pipenv run checkov -d . --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml --repo-id utrains/jenkins-terraform-aws --branch main"
+                    // sh """export BC_API_URL=https://www.bridgecrew.cloud
+                    // pwd
+                    // checkov -d /var/lib/jenkins/workspace/scan_terraform --bc-api-key 6283b629-b384-439a-9e58-90099438686a --repo-id utrains/jenkins-terraform-aws --branch main"""    
+                }
+            }
+        }
     }
     options {
         preserveStashes()
