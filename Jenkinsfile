@@ -60,23 +60,15 @@ pipeline {
      stages {
          stage('Checkout') {
              steps {
-                 git branch: 'master', url: 'https://github.com/bridgecrewio/terragoat'
+                 git branch: 'main', url: 'https://github.com/utrains/jenkins-terraform-aws'
                  stash includes: '**/*', name: 'terragoat'
              }
          }
          stage('Checkov') {
              steps {
                  script {
-                     docker.image('bridgecrew/checkov:latest').inside("--entrypoint=''") {
-                         unstash 'terragoat'
-                         try {
-                             sh 'checkov -d . --use-enforcement-rules -o cli -o junitxml --output-file-path ./,results.xml --repo-id example/terragoat --branch master'
-                             junit skipPublishingChecks: true, testResults: 'results.xml'
-                         } catch (err) {
-                             junit skipPublishingChecks: true, testResults: 'results.xml'
-                             throw err
-                         }
-                     }
+                    sh "pipenv run pip install checkov"
+                    sh "pipenv run checkov -d . --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml --repo-id utrains/jenkins-terraform-aws --branch main"
                  }
              }
          }
