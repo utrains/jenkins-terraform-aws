@@ -68,7 +68,7 @@ pipeline {
              steps {
                  script {
                     // sh "pipenv run pip install checkov"
-                    sh "ls && pwd"
+                    sh "ls"
                     // sh "pipenv run checkov -d . --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml --repo-id utrains/jenkins-terraform-aws --branch main"
                  }
              }
