@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/bash -x
 
 #### Autor : Utrains
 #### Date : 12-29-2022
 
-sudo yum update –y
+sudo yum update -y
 
 sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
 
@@ -19,7 +19,7 @@ sudo systemctl enable docker.service
 sudo chmod 777  /var/run/docker.sock
 
 ## Install Checkov
-sudo pip3 install checkov
+# sudo pip3 install checkov
 
 ## install Git
 sudo yum install git -y

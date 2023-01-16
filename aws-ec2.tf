@@ -99,7 +99,7 @@ resource "aws_instance" "ec2_instance" {
   subnet_id              = aws_default_subnet.default_az1.id
   vpc_security_group_ids = [aws_security_group.jenkins_ec2_security_group.id]
   key_name               = aws_key_pair.jenkins_key.key_name
-  # user_data            = file("install_jenkins.sh")
+  user_data            = file("installjenkins.sh")
 
   tags = {
     Name = "utrains Jenkins Server and ssh security group"
@@ -117,18 +117,17 @@ resource "null_resource" "name" {
     host        = aws_instance.ec2_instance.public_ip
   }
 
-  # copy the install_jenkins.sh file from your computer to the ec2 instance 
-  provisioner "file" {
-    source      = "install-jenkins.sh"
-    destination = "/tmp/install-jenkins.sh"
-  }
+  # # copy the install_jenkins.sh file from your computer to the ec2 instance 
+  # provisioner "file" {
+  #   source      = "installjenkins.sh"
+  #   destination = "/tmp/installjenkins.sh"
+  # }
 
   # set permissions and run the install_jenkins.sh file
   provisioner "remote-exec" {
     inline = [
-        "sudo chmod +x /tmp/install-jenkins.sh",
-        "sh /tmp/install-jenkins.sh"
-        ]
+        "sudo cat /var/lib/jenkins/secrets/initialAdminPassword",
+      ]
   }
 
   # wait for ec2 to be created
