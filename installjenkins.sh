@@ -23,6 +23,7 @@ sudo chmod 777  /var/run/docker.sock
 
 ## install Git
 sudo yum install git -y
+yum install unzip -y
 
 ## Install Java 11:
 sudo amazon-linux-extras install java-openjdk11 -y
